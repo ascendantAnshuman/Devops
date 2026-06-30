@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.abctechnologies</groupId>
+  <artifactId>corporate-website-devops</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>ABC Technologies Corporate Website DevOps Project</name>
+  <description>Static corporate website with Docker, Kubernetes, Jenkins, and monitoring configuration.</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>validate-website-files</id>
+            <phase>validate</phase>
+            <configuration>
+              <target>
+                <available file="${project.basedir}/website/index.html" property="index.exists"/>
+                <available file="${project.basedir}/website/about.html" property="about.exists"/>
+                <available file="${project.basedir}/website/services.html" property="services.exists"/>
+                <available file="${project.basedir}/website/careers.html" property="careers.exists"/>
+                <available file="${project.basedir}/website/contact.html" property="contact.exists"/>
+                <available file="${project.basedir}/website/gallery.html" property="gallery.exists"/>
+                <available file="${project.basedir}/Dockerfile" property="dockerfile.exists"/>
+                <fail unless="index.exists" message="Missing website/index.html"/>
+                <fail unless="about.exists" message="Missing website/about.html"/>
+                <fail unless="services.exists" message="Missing website/services.html"/>
+                <fail unless="careers.exists" message="Missing website/careers.html"/>
+                <fail unless="contact.exists" message="Missing website/contact.html"/>
+                <fail unless="gallery.exists" message="Missing website/gallery.html"/>
+                <fail unless="dockerfile.exists" message="Missing Dockerfile"/>
+                <echo message="Website source validation completed successfully."/>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+

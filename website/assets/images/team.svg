@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="Technology team">
+  <rect width="600" height="420" fill="#e9eef8"/>
+  <circle cx="205" cy="150" r="52" fill="#0f766e"/>
+  <circle cx="395" cy="150" r="52" fill="#38bdf8"/>
+  <path d="M115 335c14-76 65-118 130-118s116 42 130 118z" fill="#172033"/>
+  <path d="M275 335c14-76 65-118 130-118s116 42 130 118z" fill="#475569" opacity=".82"/>
+</svg>
+

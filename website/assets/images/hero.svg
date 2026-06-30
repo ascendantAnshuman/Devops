@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800" role="img" aria-label="Corporate technology operations center">
+  <rect width="1400" height="800" fill="#263445"/>
+  <rect x="780" y="120" width="430" height="300" rx="18" fill="#ffffff" opacity=".13"/>
+  <rect x="835" y="175" width="320" height="30" rx="6" fill="#7dd3fc" opacity=".8"/>
+  <rect x="835" y="235" width="250" height="24" rx="6" fill="#99f6e4" opacity=".75"/>
+  <rect x="835" y="292" width="285" height="24" rx="6" fill="#fde68a" opacity=".7"/>
+  <circle cx="270" cy="530" r="145" fill="#0f766e" opacity=".86"/>
+  <circle cx="410" cy="470" r="82" fill="#38bdf8" opacity=".72"/>
+  <path d="M0 670 C240 610 410 720 640 660 C890 595 1040 620 1400 560 L1400 800 L0 800 Z" fill="#111827" opacity=".55"/>
+</svg>
+

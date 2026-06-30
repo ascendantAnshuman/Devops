@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: abc-website-nginx
+  namespace: abc-technologies
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name _;
+      root /usr/share/nginx/html;
+      index index.html;
+
+      location / {
+        try_files $uri $uri.html $uri/ =404;
+      }
+
+      location = /health.html {
+        access_log off;
+        add_header Cache-Control "no-store";
+      }
+    }
+
