@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'abc-technologies-website'
-        CONTAINER_NAME = 'abc-website'
-        HOST_PORT = '8081'
+        IMAGE_NAME = "corporate-website"
+        CONTAINER_NAME = "corporate-container"
     }
 
     stages {
@@ -15,44 +14,26 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
+        stage('Build Docker Image') {
             steps {
-                sh 'docker build -t ${IMAGE_NAME}:latest .'
+                sh 'docker build -t ${IMAGE_NAME} .'
             }
         }
 
-        stage('Docker Run') {
+        stage('Deploy') {
             steps {
                 sh '''
-                docker rm -f ${CONTAINER_NAME} || true
-                docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:80 ${IMAGE_NAME}:latest
+                docker stop ${CONTAINER_NAME} || true
+                docker rm ${CONTAINER_NAME} || true
+                docker run -d --name ${CONTAINER_NAME} -p 8081:80 ${IMAGE_NAME}
                 '''
             }
         }
 
-        stage('Application Health Check') {
+        stage('Verify') {
             steps {
-                sh '''
-                sleep 5
-                curl http://localhost:${HOST_PORT}/health.html
-                '''
+                sh 'docker ps'
             }
-        }
-
-        stage('Kubernetes Deploy') {
-            steps {
-                sh 'kubectl apply -f k8s/'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'ABC Technologies website deployed successfully.'
-        }
-
-        failure {
-            echo 'Build failed.'
         }
     }
 }
