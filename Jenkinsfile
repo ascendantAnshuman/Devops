@@ -15,12 +15,6 @@ pipeline {
             }
         }
 
-        stage('Maven Build') {
-            steps {
-                sh 'mvn clean validate'
-            }
-        }
-
         stage('Docker Build') {
             steps {
                 sh 'docker build -t ${IMAGE_NAME}:latest .'
@@ -38,8 +32,10 @@ pipeline {
 
         stage('Application Health Check') {
             steps {
-                sh 'sleep 5'
-                sh 'curl http://localhost:${HOST_PORT}/health.html'
+                sh '''
+                sleep 5
+                curl http://localhost:${HOST_PORT}/health.html
+                '''
             }
         }
 
