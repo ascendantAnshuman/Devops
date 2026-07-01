@@ -8,6 +8,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -16,50 +17,46 @@ pipeline {
 
         stage('Maven Build') {
             steps {
-                dir('corporate-website-devops') {
-                    bat 'mvn clean validate'
-                }
+                sh 'mvn clean validate'
             }
         }
 
         stage('Docker Build') {
             steps {
-                dir('corporate-website-devops') {
-                    bat 'docker build -t %IMAGE_NAME%:latest .'
-                }
+                sh 'docker build -t ${IMAGE_NAME}:latest .'
             }
         }
 
         stage('Docker Run') {
             steps {
-                bat 'docker rm -f %CONTAINER_NAME% || exit 0'
-                bat 'docker run -d --name %CONTAINER_NAME% -p %HOST_PORT%:80 %IMAGE_NAME%:latest'
+                sh '''
+                docker rm -f ${CONTAINER_NAME} || true
+                docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:80 ${IMAGE_NAME}:latest
+                '''
             }
         }
 
         stage('Application Health Check') {
             steps {
-                bat 'powershell -Command "Start-Sleep -Seconds 3; Invoke-WebRequest -Uri http://localhost:%HOST_PORT%/health.html -UseBasicParsing"'
+                sh 'sleep 5'
+                sh 'curl http://localhost:${HOST_PORT}/health.html'
             }
         }
 
         stage('Kubernetes Deploy') {
             steps {
-                dir('corporate-website-devops') {
-                    bat 'kubectl apply -f k8s/'
-                    bat 'kubectl rollout status deployment/abc-website -n abc-technologies --timeout=180s'
-                }
+                sh 'kubectl apply -f k8s/'
             }
         }
     }
 
     post {
         success {
-            echo 'ABC Technologies website build and deployment completed successfully.'
+            echo 'ABC Technologies website deployed successfully.'
         }
+
         failure {
-            echo 'Build failed. Check Maven, Docker, Kubernetes, and Jenkins configuration.'
+            echo 'Build failed.'
         }
     }
 }
-
